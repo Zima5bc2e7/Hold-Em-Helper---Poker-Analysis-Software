@@ -1,3 +1,43 @@
+welcome_message = ("Welcome to Texas Hold 'Em Helper! This tool is your key to mastering the blend of skill "
+                   "and luck in poker. \nWe'll help you make the right calls, bets, and shoves. "
+                   "Here's how to get started:\n\n"
+                   "Step 1: Choose Your Hand\n"
+                   "Select a hand you're unsure about. We'll analyze the actions of your opponents.\n \n"
+                   "Step 2: Card Selection\n"
+                   "Select the cards you were dealt in the Card Selection tab.\n\n"
+                   "Step 3: Evaluate Ranges\n"
+                   "Judge your opponents' possible hands. Do they play tight or loose? "
+                   "Exclude weak and strong hands using our sliders and hand selection options.\n\n"
+                   "Step 4: House Selection\n"
+                   "Choose the house cards dealt in the House Selection tab.\n\n"
+                   "Step 5: Analyze Equity\n"
+                   "In the Overview tab, you can see your equity against the selected ranges, "
+                   "your chances of making a strong hand, and your win rate.\n\n"
+                   "Step 6: Bet Wisely\n"
+                   "Use the Bet Helper to select hands your opponents might call with. "
+                   "Calculate how much you can profitably bet.\n\n"
+                   "Step 7: Expected Value Calculation\n"
+                   "In the EV Calculator tab, choose calling hands, enter pot and bet size. "
+                   "Calculate the EV of your move.\n\n"
+                   "Step 8: Track Villains\n"
+                   "After a round of betting, deduce which hands have been folded by your opponents in the "
+                   "Villains tab and return to stage 4.\n\n"
+                   "Get ready to enhance your poker skills and make winning decisions. Let's dive in!")
+
+selector_text = "Judge Your Opponents' Range.\nExclude/Include Hands.\nCommit to Play."
+
+overview_text = "Check Your Equity.\nAssess Hand Strength."
+
+bet_helper_text = "Maximize Your Bets.\nChoose Opponent Calls.\nSee What's Possible."
+
+shove_calc_text = "Set Your Bet.\nCalculate Expected Value.\nTake Control of the Game."
+
+villains_text = "Gather Info.\nFilter Folded Hands.\nMove On to the Next Round."
+
+card_selection_text = "Pick Your Hole Cards.\nLet's Play!"
+
+house_selection_text = "Choose House Cards.\nBuild Your Hand."
+
 values = {
     "A": 14,
     "K": 13,
@@ -34,11 +74,22 @@ suit_colours = {"Clubs": "green",
                 "Spades": "black",
                 }
 
+
 suit_symbols = {"Clubs": "♣",
                 "Diamonds": "♦",
                 "Hearts": "♥",
                 "Spades": "♠",
                 }
+
+made_hands = {2: 'High Card',
+              3: 'Pair',
+              4: 'Two Pair',
+              5: 'Three of a Kind',
+              6: 'Straight',
+              7: 'Flush',
+              8: 'Full House',
+              9: 'Quads',
+              10: 'Straight Flush'}
 
 starting_hand_ranks = {"AA": 0.004524886877828055,
                        "KK": 0.00904977375565611,
