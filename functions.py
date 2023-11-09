@@ -340,7 +340,11 @@ def read_them_and_weep(list_of_cards):
 
     if multiples[0] == 2:
         if leftover[0] == 2:
-            kicker = high_cards(leftover[2])[0]
+            remainder = high_cards(leftover[2])
+            if remainder:
+                kicker = high_cards(leftover[2])[0]
+            else:
+                kicker = 0
             return f"Two pair, {multiples[1]}s and {leftover[1]}s", 4, (multiples[1], leftover[1], kicker)
         else:
             kickers = high_cards(leftover[2])[:3]
@@ -807,24 +811,25 @@ def check_draws(villain_hands, house):
             elif made[1] == 5:
                 draw_dict[hand]['made'] = 'Three of a Kind'
             elif made[1] == 4:
-                pairs = made[2][0], made[2][1]
-
-                # Evaluate pairs or two pairs
-                if check_multiples(house)[0] == 2 or on_board_draws['made'][1] == 4:
-                    if pairs[0] > house_in_order[0]:
-                        draw_dict[hand]['made'] = 'Overpair'
-                    elif pairs[1] < house_in_order[-1]:
-                        draw_dict[hand]['made'] = 'Underpair'
-                    else:
-                        draw_dict[hand]['made'] = 'Mid Two Pair'
-                        # A3 on AQQ hits this, consider condensing all to 'Two Pair'
-                else:
-                    if pairs[0] == house_in_order[0] and pairs[1] == house_in_order[1]:
-                        draw_dict[hand]['made'] = 'Top Two Pair'
-                    elif pairs[0] == house_in_order[-2] and pairs[1] == house_in_order[-1]:
-                        draw_dict[hand]['made'] = 'Bottom Two Pair'
-                    else:
-                        draw_dict[hand]['made'] = 'Mid Two Pair'
+                draw_dict[hand]['made'] = 'Two Pair'
+                # pairs = made[2][0], made[2][1]
+                #
+                # # Evaluate pairs or two pairs
+                # if check_multiples(house)[0] == 2 or on_board_draws['made'][1] == 4:
+                #     if pairs[0] > house_in_order[0]:
+                #         draw_dict[hand]['made'] = 'Overpair'
+                #     elif pairs[1] < house_in_order[-1]:
+                #         draw_dict[hand]['made'] = 'Underpair'
+                #     else:
+                #         draw_dict[hand]['made'] = 'Mid Two Pair'
+                #         # A3 on AQQ hits this, consider condensing all to 'Two Pair'
+                # else:
+                #     if pairs[0] == house_in_order[0] and pairs[1] == house_in_order[1]:
+                #         draw_dict[hand]['made'] = 'Top Two Pair'
+                #     elif pairs[0] == house_in_order[-2] and pairs[1] == house_in_order[-1]:
+                #         draw_dict[hand]['made'] = 'Bottom Two Pair'
+                #     else:
+                #         draw_dict[hand]['made'] = 'Mid Two Pair'
             elif made[1] == 3:
                 if made[2][0] > house_in_order[0]:
                     draw_dict[hand]['made'] = 'Overpair'

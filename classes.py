@@ -347,6 +347,7 @@ class Manager:
         self.resize_ratio = resize_ratio
         self.width = int(1366 * resize_ratio)
         self.height = int(768 * resize_ratio)
+        self.tiny_card = int(60 * resize_ratio)
         self.small_card = int(62 * resize_ratio)
         self.large_card = int(70 * resize_ratio)
         self.small_pad = int(5 * resize_ratio)

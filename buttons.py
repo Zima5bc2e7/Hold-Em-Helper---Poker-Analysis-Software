@@ -1,5 +1,4 @@
 import tkinter.ttk as ttk
-from PIL import ImageTk
 from functions import *
 
 

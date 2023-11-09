@@ -69,10 +69,9 @@ class OverviewTab(Tab):
         # Create widgets
         self.instructions = ttk.Label(self, text=overview_text, style='Guide.TLabel', justify='right')
         self.next_tab = ttk.Button(self, text='Done', command=self.move_on)
-        self.players_frame = ttk.Frame(self, height=int(manager.height * 0.4), width=int(manager.width * 0.4))
+        self.players_frame = ttk.Frame(self, height=int(manager.height * 0.42), width=int(manager.width * 0.4))
         self.players_frame['relief'] = 'raised'
         self.players_frame.grid_propagate(False)
-        # self.players_frame.columnconfigure(2, weight=1)
 
         # Place widgets in the layout
         self.in_depth.grid(column=0, row=0, rowspan=4, pady=self.manager.small_pad, padx=self.manager.small_pad)
@@ -122,7 +121,7 @@ class OverviewTab(Tab):
             hero_name_label = ttk.Label(self.players_frame, text='Hero', width=8, anchor='e')
             self.labels.append(hero_name_label)
             hero_name_label.grid(column=0, row=0, padx=self.manager.small_pad, pady=self.manager.small_pad, sticky='w')
-            hero_bar = ttk.Label(self.players_frame)
+            hero_bar = ttk.Label(self.players_frame, style='Bar.TLabel')
             self.labels.append(hero_bar)
             self.player_bars['hero'] = hero_bar
             hero_bar.grid(column=2, row=0, sticky='w', padx=self.manager.small_pad)
@@ -138,7 +137,7 @@ class OverviewTab(Tab):
                 player_label = ttk.Label(self.players_frame, text=f'Villain {count + 1}', width=8, anchor='e')
                 self.labels.append(player_label)
                 player_label.grid(column=0, row=count + 1, padx=self.manager.small_pad, sticky='w')
-                player_bar = ttk.Label(self.players_frame)
+                player_bar = ttk.Label(self.players_frame, style='Bar.TLabel')
                 self.labels.append(player_bar)
                 player_bar.grid(column=2, row=count + 1, sticky='w', padx=self.manager.small_pad)
                 self.player_bars[count] = player_bar
@@ -158,7 +157,14 @@ class OverviewTab(Tab):
                 else:
                     for player in self.manager.game_data['equity']:
                         self.manager.game_data['equity'][player].set(f'{round(i[0][player], 1)}%')
-                        self.player_bars[player].configure(width=int(i[0][player] / 2))
+                        equity = i[0][player]
+                        if equity >= 50:
+                            colour = 'green'
+                        elif equity >= 20:
+                            colour = 'orange'
+                        else:
+                            colour = 'red'
+                        self.player_bars[player].configure(width=int(equity / 2), background=colour)
                         self.manager.game_data['hands_breakdown'] = i[1]
                         n += 1
                     if n == 100:
@@ -623,7 +629,7 @@ class RangesTab(Tab):
 
         # Create a Notebook for displaying multiple opponent range displays
         self.notebook = ttk.Notebook(self, style='Ranges.TNotebook')
-        self.notebook.grid(column=0, row=1, padx=self.manager.small_pad, pady=self.manager.small_pad)
+        self.notebook.grid(column=0, row=1, padx=self.manager.small_pad)
 
         # Button for removing the selected range
         self.remove_selected = ttk.Button(self, text='Remove Selected Range', command=self.remove_selected_range)
@@ -637,7 +643,7 @@ class RangesTab(Tab):
 
         # Instructions label
         self.instructions = ttk.Label(self, text=villains_text, style='Guide.TLabel', justify='right')
-        self.instructions.grid(column=1, row=0, sticky='ne')
+        self.instructions.grid(column=0, row=0, columnspan=2, sticky='ne')
 
         # "Done" button to move on to the next tab
         self.next_button = ttk.Button(self, text='Done', command=self.move_on)
@@ -683,7 +689,7 @@ class RangesTab(Tab):
             self.range_displays[count] = new_range_display
             self.ranges[count] = villain
             new_range_display.grid(column=0, row=0, rowspan=2)
-            new_range_display.configure(width=int(self.manager.width * 0.6))
+            # new_range_display.configure(width=int(self.manager.width * 0.6))
 
             # Create range filter for each range display
             range_filter = RangeFilter(self.manager, self.ranges[count], self.range_displays[count], 'filter',
@@ -786,7 +792,7 @@ class ShoveCalculatorTab(Tab):
 
         # Instructions label
         self.instructions = ttk.Label(self, text=shove_calc_text, style='Guide.TLabel', justify='right')
-        self.instructions.grid(column=1, row=0, sticky='ne')
+        self.instructions.grid(column=0, row=0, columnspan=2, sticky='ne')
 
         # "Done" button to move on to the next tab
         self.next_button = ttk.Button(self, text='Done', command=self.move_on)
@@ -942,22 +948,22 @@ class BetForValueTab(Tab):
 
         # Labels to display calculated values
         self.max_bet = tk.StringVar()
-        self.max_bet_label = ttk.Label(self.calculation_frame, textvariable=self.max_bet, width=21, anchor='e')
+        self.max_bet_label = ttk.Label(self.calculation_frame, textvariable=self.max_bet, width=18, anchor='e')
         self.max_bet_label.grid(column=0, row=0, padx=self.manager.small_pad)
         self.equity = tk.StringVar()
-        self.equity_label = ttk.Label(self.calculation_frame, textvariable=self.equity, width=23, anchor='e')
+        self.equity_label = ttk.Label(self.calculation_frame, textvariable=self.equity, width=20, anchor='e')
         self.equity_label.grid(column=1, row=0, padx=self.manager.small_pad)
         self.fold = tk.StringVar()
-        self.fold_label = ttk.Label(self.calculation_frame, textvariable=self.fold, width=11, anchor='e')
+        self.fold_label = ttk.Label(self.calculation_frame, textvariable=self.fold, width=10, anchor='e')
         self.fold_label.grid(column=2, row=0, padx=self.manager.small_pad)
         self.max_call = tk.StringVar()
-        self.max_call_label = ttk.Label(self.calculation_frame, textvariable=self.max_call, width=15, anchor='e')
+        self.max_call_label = ttk.Label(self.calculation_frame, textvariable=self.max_call, width=16, anchor='e')
         self.max_call_label.grid(column=3, row=0, padx=self.manager.small_pad)
         self.calculation_frame.grid(column=0, row=0, padx=self.manager.small_pad, pady=self.manager.small_pad)
 
         # Instructions label
         self.instructions = ttk.Label(self, text=bet_helper_text, style='Guide.TLabel', justify='right')
-        self.instructions.grid(column=1, row=0, sticky='ne')
+        self.instructions.grid(column=0, row=0, columnspan=2, sticky='ne')
 
         # Button to move to the next tab
         self.next_button = ttk.Button(self, text='Done', command=self.move_on)
@@ -1121,7 +1127,7 @@ class InDepthTab(Tab):
         This class displays in-depth data about the current game situation.
         It provides statistics for made hands, occurrence, win percentage, and relative win percentage.
         """
-        super().__init__(height=int(manager.height/2), width=int(manager.width * 0.4), *args, **kwargs)
+        super().__init__(height=int(manager.height * 0.45), width=int(manager.width * 0.4), *args, **kwargs)
         self.manager = manager
         self.manager.tabs['in_depth'] = self
         self.choose_player = None
@@ -1160,7 +1166,8 @@ class InDepthTab(Tab):
 
             # Create and configure the player selection combobox
             self.choose_player = ttk.Combobox(self, values=players, textvariable=self.chosen_player)
-            self.choose_player.grid(column=0, row=0, padx=self.manager.small_pad, pady=self.manager.small_pad)
+            self.choose_player.grid(column=0, row=0, columnspan=4, padx=self.manager.small_pad,
+                                    pady=self.manager.small_pad, sticky='w')
             self.choose_player.current(0)
 
             # Bind the 'combobox_selected' event handler to the combobox
@@ -1229,7 +1236,7 @@ class InDepthTab(Tab):
             # Create labels for made hands
             for made_hand in made_hands:
                 new_label = ttk.Label(self, text=made_hands[made_hand])
-                new_label.grid(column=0, row=made_hand, pady=self.manager.small_pad, sticky='e')
+                new_label.grid(column=0, row=made_hand, pady=(self.manager.small_pad, 0), sticky='e')
                 self.labels.append(new_label)
 
             # Create labels for statistics and associate them with the corresponding variables
@@ -1282,7 +1289,8 @@ class Analysis(ttk.Notebook):
     """
     def __init__(self, manager, resize, *args, **kwargs):
         # Initialize the notebook with given width and height
-        super().__init__(width=int(manager.width * 0.85), height=int(manager.height * 0.9), padding=5, *args, **kwargs)
+        super().__init__(width=int(manager.width * 0.85), height=int(manager.height * 0.9), padding=manager.small_pad,
+                         *args, **kwargs)
         self.manager = manager
         self.manager.notebook = self
         self.deck = Deck()
@@ -1411,8 +1419,8 @@ class Interface(tk.Tk):
         self.analysis.grid(column=0, row=0, rowspan=2, sticky='nsew')
 
         # Create a reset button
-        self.reset_button = ttk.Button(text='Reset', command=self.reset)
-        self.reset_button.grid(column=1, row=1)
+        self.reset_button = ttk.Button(text='Reset', command=self.reset, width=5)
+        self.reset_button.grid(column=0, row=0, sticky='nw', padx=self.manager.small_pad, pady=self.manager.small_pad)
 
         # Refresh the manager to initialize the application
         self.manager.refresh()
@@ -1436,8 +1444,12 @@ class Interface(tk.Tk):
         # Destroy the existing analysis and summary widgets
         self.after(1000, self.analysis.destroy())
         self.summary.destroy()
+        self.reset_button.destroy()
 
-        # Create a new manager with the original resize ratio
+        # Create a new manager with recalculated resize ratio
+        screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
+        self.resize_ratio = min(screen_height / 768, screen_width / 1366)
         self.manager = Manager(self.resize_ratio)
 
         # Recreate the analysis notebook and summary sidebar
@@ -1446,6 +1458,9 @@ class Interface(tk.Tk):
 
         self.summary = SummarySidebar(master=self, manager=self.manager)
         self.summary.grid(column=1, row=0, padx=5, pady=0)
+
+        self.reset_button = ttk.Button(text='Reset', command=self.reset, width=5)
+        self.reset_button.grid(column=0, row=0, sticky='nw', padx=self.manager.small_pad, pady=self.manager.small_pad)
 
         # Update the manager's summary reference
         self.manager.summary = self.summary

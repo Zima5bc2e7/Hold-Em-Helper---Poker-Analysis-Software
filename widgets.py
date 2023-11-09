@@ -41,9 +41,10 @@ class RangeFilter(ttk.Frame):
                            'Flush': tk.IntVar(),
                            'Straight': tk.IntVar(),
                            'Three of a Kind': tk.IntVar(),
-                           'Top Two Pair': tk.IntVar(),
-                           'Mid Two Pair': tk.IntVar(),
-                           'Bottom Two Pair': tk.IntVar(),
+                           'Two Pair': tk.IntVar(),
+                           # 'Top Two Pair': tk.IntVar(),
+                           # 'Mid Two Pair': tk.IntVar(),
+                           # 'Bottom Two Pair': tk.IntVar(),
                            'Overpair': tk.IntVar(),
                            'Top Pair': tk.IntVar(),
                            'Mid Pair': tk.IntVar(),
@@ -69,7 +70,7 @@ class RangeFilter(ttk.Frame):
 
         # Create the "Filter" button
         self.filter_button = ttk.Button(self, text='Fold', command=self.filter_hands)
-        self.filter_button.grid(column=0, row=len(self.filter) + 3, pady=self.manager.large_pad)
+        self.filter_button.grid(column=0, row=len(self.filter) + 3, pady=self.manager.small_pad)
 
         # Display the number of hands and the count of selected hands
         self.number_of_hands = tk.StringVar()
@@ -230,13 +231,13 @@ class RangeDisplay(ttk.Frame):
 
         # Create labels for different suits
         self.clubs_label = ttk.Label(master=self, text="♣", style='Clubs.TLabel')
-        self.clubs_label.grid(column=0, row=4, padx=self.manager.small_pad)
+        self.clubs_label.grid(column=0, row=3, rowspan=3, padx=self.manager.small_pad)
         self.diamonds_label = ttk.Label(master=self, text="♦", style='Diamonds.TLabel')
-        self.diamonds_label.grid(column=0, row=7, padx=self.manager.small_pad)
+        self.diamonds_label.grid(column=0, row=6, rowspan=3, padx=self.manager.small_pad)
         self.hearts_label = ttk.Label(master=self, text="♥", style='Hearts.TLabel')
-        self.hearts_label.grid(column=0, row=10, padx=self.manager.small_pad)
+        self.hearts_label.grid(column=0, row=9, rowspan=3, padx=self.manager.small_pad)
         self.spades_label = ttk.Label(master=self, text="♠", style='Spades.TLabel')
-        self.spades_label.grid(column=0, row=13, padx=self.manager.small_pad)
+        self.spades_label.grid(column=0, row=12, rowspan=3, padx=self.manager.small_pad)
 
         # Display unsuited hand buttons and all suits
         self.display_unsuited_hand_buttons()
@@ -358,6 +359,7 @@ class CallingRangeDisplay(ttk.Frame):
 
         # now defunct, to be removed
         self.villain_calls_with = ttk.Label(self.calling_hands_frame, text='Hands Villain Calls With:')
+        self.villain_calls_with.configure(background='pink1')
         self.villain_calls_with.grid(column=1, row=0, columnspan=10, pady=self.manager.small_pad,
                                      padx=self.manager.small_pad, sticky='n')
 
@@ -367,22 +369,18 @@ class CallingRangeDisplay(ttk.Frame):
         self.filter.filter_button.destroy()
         self.filter.grid(column=0, row=0, rowspan=19)
 
-        # Create a label for the initial villain range
-        initial_range = ttk.Label(self, text='Initial Villain Range:')
-        initial_range.grid(column=0, row=0, columnspan=33, padx=self.manager.small_pad, pady=self.manager.small_pad)
-
         # Create labels for different suits
         self.clubs_label = ttk.Label(master=self, text="♣", style='Clubs.TLabel')
-        self.clubs_label.grid(column=0, row=5, padx=self.manager.small_pad)
+        self.clubs_label.grid(column=0, row=4, rowspan=3, padx=self.manager.small_pad)
 
         self.diamonds_label = ttk.Label(master=self, text="♦", style='Diamonds.TLabel')
-        self.diamonds_label.grid(column=0, row=8, padx=self.manager.small_pad)
+        self.diamonds_label.grid(column=0, row=7, rowspan=3, padx=self.manager.small_pad)
 
         self.hearts_label = ttk.Label(master=self, text="♥", style='Hearts.TLabel')
-        self.hearts_label.grid(column=0, row=11, padx=self.manager.small_pad)
+        self.hearts_label.grid(column=0, row=10, rowspan=3, padx=self.manager.small_pad)
 
         self.spades_label = ttk.Label(master=self, text="♠", style='Spades.TLabel')
-        self.spades_label.grid(column=0, row=14, padx=self.manager.small_pad)
+        self.spades_label.grid(column=0, row=13, rowspan=3, padx=self.manager.small_pad)
 
         # Display hand buttons
         self.display_unsuited_hand_buttons()
@@ -413,7 +411,7 @@ class CallingRangeDisplay(ttk.Frame):
             self.buttons.append(new_button)
 
             # Place the button in the appropriate grid cell
-            new_button.grid(column=col + 1, row=row + 1, sticky="S",
+            new_button.grid(column=col + 1, row=row + 1, sticky="sew",
                             ipady=self.manager.button * (self.villain_range.range_density[hand_name] - 1))
 
     def display_suited_hand_buttons(self, suit, row):
@@ -445,7 +443,7 @@ class CallingRangeDisplay(ttk.Frame):
             self.buttons.append(new_button)
 
             # Place the button in the appropriate grid cell
-            new_button.grid(column=1 + col_index, row=row + 1 + row_index)
+            new_button.grid(column=1 + col_index, row=row + 1 + row_index, sticky='nsew')
 
     def display_all_suits(self):
         """
@@ -501,7 +499,7 @@ class SummarySidebar(ttk.Frame):
     def __init__(self, manager, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.manager = manager
-        self.blank = get_blank_card(self.manager.small_card)
+        self.blank = get_blank_card(self.manager.tiny_card)
         self.hand_frame = ttk.Frame(self)
         self.house_frame = ttk.Frame(self)
         self.hand_frame.grid(row=0, column=0, pady=self.manager.small_pad)
@@ -528,10 +526,10 @@ class SummarySidebar(ttk.Frame):
 
         if self.manager.game_data['hand']:
             # Display player's hand
-            image_1 = rescale(self.manager.game_data['hand'].card_1.raw_image, self.manager.small_card)
+            image_1 = rescale(self.manager.game_data['hand'].card_1.raw_image, self.manager.tiny_card)
             image_1 = ImageTk.PhotoImage(image_1)
             self.images.append(image_1)
-            image_2 = rescale(self.manager.game_data['hand'].card_2.raw_image, self.manager.small_card)
+            image_2 = rescale(self.manager.game_data['hand'].card_2.raw_image, self.manager.tiny_card)
             image_2 = ImageTk.PhotoImage(image_2)
             self.images.append(image_2)
             label_1 = ttk.Label(self.hand_frame, image=image_1)
@@ -553,7 +551,7 @@ class SummarySidebar(ttk.Frame):
         house_size = len(self.manager.game_data['house'])
         for index, card in enumerate(self.manager.game_data['house']):
             # Display community cards
-            image = rescale(card.raw_image, self.manager.small_card)
+            image = rescale(card.raw_image, self.manager.tiny_card)
             image = ImageTk.PhotoImage(image)
             self.images.append(image)
             label = ttk.Label(self.house_frame, image=image)
