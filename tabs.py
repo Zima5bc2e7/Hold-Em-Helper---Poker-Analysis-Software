@@ -1097,7 +1097,7 @@ class BetForValueTab(Tab):
 
                     # Calculate the maximum call percentage
                     if called_equity < 100:
-                        max_call = called_equity * 100 / (100 - called_equity)
+                        max_call = called_equity * 100 / (100 - 2 * called_equity)
                     else:
                         max_call = 999999999
 
