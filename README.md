@@ -36,3 +36,5 @@ License
 Hold 'Em Helper is licensed under the MIT License. Use, modify, and distribute the code freely according to the license terms.
 
 We hope you find Hold 'Em Helper valuable for improving your poker skills. Enjoy analyzing your hands, gaining insights, and making informed decisions at the poker table!
+
+**Author:** Zima Blue
