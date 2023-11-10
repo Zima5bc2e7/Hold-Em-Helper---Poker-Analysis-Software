@@ -1,0 +1,6 @@
+*.iml
+*.xml
+build/
+dist/
+venv/
+*.spec
