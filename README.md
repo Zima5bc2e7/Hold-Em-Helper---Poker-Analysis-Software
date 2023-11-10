@@ -1,4 +1,4 @@
-# holdem-helper_v0.1
+# Hold 'Em Helper - Poker Analysis Software
 Program to analyse Texas Hold 'Em hand histories
 
 Hold 'Em Helper
